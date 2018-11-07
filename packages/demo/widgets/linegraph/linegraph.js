@@ -9,8 +9,8 @@ widget = {
     // Display sparkline of month-by-month new sales
     $('.left', el).append($('.graph', el).html(data.linegraph.join(",")));
     $('.graph', el).peity("line", {
-      width: 300,
-      height: 200,
+      width: 500,
+      height: 300,
       strokeColour: '#1796d1',
       strokeWidth: 6
     });

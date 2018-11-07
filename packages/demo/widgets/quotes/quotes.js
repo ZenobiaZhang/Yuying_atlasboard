@@ -2,23 +2,24 @@ widget = {
 
   onData: function (el, data) {
     if (data.title) {
-      $('h2', el).text(data.title);
+      $('h2', el).text("story types in the project");
+    }
+    if(data.due) {
+      $('due', el).text("Due Date:" + data.due);
     }
 
     var $content = $('.content', el);
     $content.empty();
 
-    if (data.quotes.length > 0) {
-      data.quotes.forEach(function (quote) {
+    if (data.issues.length) {
+      data.issues.forEach(function (issue) {
         $content.append(
-            "<blockquote>" + quote.quote + "<cite>" + quote.author + "</cite></blockquote>"
+            "<div class='item-container'>" +
+              "<div class='issue'>" + issue.issueType + "</div>" +
+              "<div class='count'>" + issue.frequency + "</div>" +
+            "</div>"
         );
-      });
-
-    } else {
-      $content.append(
-          "<blockquote>NO QUOTES FOUND<blockquote>"
-      );
+      })
     }
   }
 };

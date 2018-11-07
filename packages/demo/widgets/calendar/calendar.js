@@ -1,26 +1,16 @@
 widget = {
+    onData: function (el, data) {
 
-  onData: function (el, data) {
-    if (data.title) {
-      $('h2', el).text(data.title);
+        if (data.title){
+            $('.widget-title', el).show().text(data.title);
+        }
+        else {
+            $('.widget-title', el).hide();//Remove the title as it looks better that way
+        }
+
+        $('.content', el).html(
+            "<img class='featured-image' src='" + data.imageSrc + "'/>"
+        );
+
     }
-
-    var $content = $('.content', el);
-    $content.empty();
-
-    if (!data.events || !data.events.length) {
-      $content.append($("<div>").html("No events found."));
-    } else {
-
-      this.log(data.events.length + ' calendar events found!');
-
-      data.events.forEach(function (event) {
-        var eventDiv = $("<div/>").addClass('leave-event');
-        $(eventDiv).append($("<div/>").addClass('leave-dates').append(event.startDate + " - " + event.endDate));
-        $(eventDiv).append($("<div/>").addClass('leave-summary').append(event.summary));
-
-        $content.append(eventDiv);
-      });
-    }
-  }
 };

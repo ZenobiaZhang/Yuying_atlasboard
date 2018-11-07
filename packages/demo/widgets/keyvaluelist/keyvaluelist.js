@@ -2,7 +2,10 @@ widget = {
 
   onData: function (el, data) {
     if (data.title) {
-      $('h2', el).text(data.title);
+      $('h2', el).text("top stories in the project");
+    }
+    if(data.due) {
+      $('due', el).text("Due Date:" + data.due);
     }
 
     var $content = $('.content', el);

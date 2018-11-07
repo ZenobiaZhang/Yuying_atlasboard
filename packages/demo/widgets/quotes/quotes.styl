@@ -1,27 +1,27 @@
-.content
-  padding 1em 2em
+.item-container
+  padding 1em
 
-blockquote
-  font-size 2.3em
-  margin 0.25em 0
-  padding 0.25em 0.5em
-  line-height 1.3
-  position relative
-  color $gray-light
+  .issue
+    font-size 3em
+    color $gray-ligther
+    width 75%
+    display inline-block
+    float left
+    padding-bottom 0.3em
 
-  &:before
-    display block
-    content "\201C"
-    font-size 2em
-    position absolute
-    left -0.3em
-    top -0.3em
-    color $gray
-
-  cite
+  .count
+    font-size 3.5em
+    font-weight bold
     color $brand-primary
-    display block
-    margin-top 5px
+    width 18%
+    float right
+    display inline-block
 
-    &:before
-      content "\2014 \2009"
+  .due
+    font-size 3.5em
+    font-weight bold
+    color $brand-primary
+    width 75%
+    float center
+    display inline-block
+

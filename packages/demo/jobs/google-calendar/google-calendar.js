@@ -1,40 +1,43 @@
-var ical = require('ical');
-
 module.exports = {
 
-  onInit: function(config, dependencies) {
-    dependencies.logger.info('Google calendar job started!'); // I am a log line!
-  },
+    onInit: function (config, dependencies) {
+        dependencies.logger.info('Gocomics job started!');
+    },
 
-  onRun: function (config, dependencies, jobCallback) {
-    var _ = dependencies.underscore;
-    var maxEntries = config.maxEntries || 10;
 
-    var formatDate = function (date) {
-      var d = date.getDate();
-      var m = date.getMonth() + 1;
-      return '' + (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
-    };
+    onRun: function (config, dependencies, jobCallback) {
 
-    ical.fromURL(config.calendarUrl, {}, function (err, data) {
+        var request = require('request'),
+            cheerio = require('cheerio');
 
-      if (err) {
-        return jobCallback(err);
-      }
+        //Create current date string
+        var today = new Date();
+        var dd = today.getDate();
 
-      var events = _.sortBy(data, function (event) {
-        return event.start;
-      });
-      events = _.filter(events, function (event) {
-        return event.end >= new Date();
-      });
+        //Generate a random number based off of the current day as max.
+        dd = dd < 10 ? "0"+dd : dd.toString();
+        var ddRand = Math.floor(Math.random() * dd) + 1;
 
-      var result = [];
-      _.first(events, maxEntries).forEach(function (event) {
-          result.push({startDate: formatDate(event.start), endDate: formatDate(event.end), summary: event.summary});
-      });
+        var mm = today.getMonth()+1;
+        mm = mm < 10 ? "0"+mm : mm.toString();
 
-      jobCallback(null, {events: result, title: config.widgetTitle});
-    });
-  }
+        var yyyy = today.getFullYear();
+        yyyy = yyyy.toString();
+
+        //Format the new date into the string needed for the URL
+        var today = yyyy+ '/' + mm+ '/' + ddRand;
+
+        var  url = 'http://www.gocomics.com/calvinandhobbes/' + today;
+        console.log(url);
+        request(url, function(error, response, body){
+            if (!error) {
+                var $ = cheerio.load(body);
+                var src = $('div div.comic__container div.comic__image.js-comic-swipe-target a picture img').attr('src');
+                console.log(src);
+                jobCallback(null, {imageSrc: src});
+            } else {
+                console.error('Error connecting to url:', url, error);
+            }
+        });
+    }
 };
