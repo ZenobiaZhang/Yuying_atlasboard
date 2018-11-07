@@ -1,0 +1,3 @@
+[submodule "packages/gonzo"]
+	path = packages/gonzo
+	url = https://github.com/gonzoinc/atlasboard-gonzo-packages.git
